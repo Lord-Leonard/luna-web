@@ -1,53 +1,70 @@
-<script>
-	import Header from './Header.svelte';
-	import './styles.css';
+<script lang="ts">
+  import Footer from '$lib/components/Footer.svelte';
+  import Header from '$lib/components/Header.svelte';
+  import '@picocss/pico';
+  import type { LayoutData } from './$types';
+
+  export let data: LayoutData;
 </script>
 
-<div class="app">
-	<Header />
+<svelte:head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant:wght@500&display=swap&text=BOOKSTALFNTYVE"
+    rel="stylesheet"
+  />
+</svelte:head>
 
-	<main>
-		<slot />
-	</main>
+<Header isAuthenticated={data.isAuthenticated} />
+<main class="container">
+  <slot />
+</main>
+<Footer />
 
-	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-	</footer>
-</div>
+<style global lang="scss">
+  main {
+    flex: 1 0 auto;
+  }
 
-<style>
-	.app {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-	}
+    body > div {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-	main {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		padding: 1rem;
-		width: 100%;
-		max-width: 64rem;
-		margin: 0 auto;
-		box-sizing: border-box;
-	}
-
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 12px;
-	}
-
-	footer a {
-		font-weight: bold;
-	}
-
-	@media (min-width: 480px) {
-		footer {
-			padding: 12px 0;
-		}
-	}
+    dialog,
+    form {
+      > article {
+        width: 100%;
+        border: 1px solid var(--muted-border-color);
+        > header {
+          margin-bottom: 0.5em;
+          padding-top: 0.75em;
+          padding-bottom: 0.75em;
+          font-size: 1.25rem;
+          font-weight: 500;
+          border-bottom: 1px solid var(--muted-border-color);
+          .close {
+            margin-top: 0.5em;
+          }
+        }
+        > footer {
+          display: flex;
+          gap: 1em;
+          justify-content: center;
+          margin-top: 1em;
+          padding-top: 1em;
+          padding-bottom: 1em;
+          border-top: 1px solid var(--muted-border-color);
+          > button {
+            display: inline-block;
+            margin-bottom: 0;
+            max-width: 160px;
+          }
+        }
+      }
+    }
+  
 </style>

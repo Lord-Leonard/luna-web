@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "name": "build luna-web",
+            "type": "command",
+            "workingDir": "$PROJECT_DIR$/",
+            "program": "pnpm",
+            "args": ["build"], // Write here your needed args
+        },
+        {
+            "name": "node luna-web",
+            "type": "command",
+            "workingDir": "$PROJECT_DIR$/",
+            "program": "node",
+            "args": ["build/index.js"],
+        },
+        {
+            "name": "preview luna-web",
+            "type": "command",
+            "dependsOn": ["build luna-web"],
+            "workingDir": "$PROJECT_DIR$/",
+            "program": "pnpm",
+            "args": ["preview"],
+        },
+    ]
+}

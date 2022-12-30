@@ -19,8 +19,6 @@
   <nav>
     <ul>
       <HeaderNavLink to="/authors" title="Authors" />
-      <HeaderNavLink to="/books" title="Books" />
-      <HeaderNavLink to="/stores" title="Stores" />
       {#if isAuthenticated}
         <HeaderNavLink on:click={logout} title="Logout" />
       {:else}
