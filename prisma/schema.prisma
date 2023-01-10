@@ -8,13 +8,22 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  name         String
-  email        String   @unique
-  passwordHash String
-  updatedAt    DateTime @updatedAt
+  id            String   @id @default(cuid())
+  username      String   @unique
+  passwordHash  String
+  userAuthToken String   @unique
+  updatedAt     DateTime @updatedAt
 
   updatedAdresses Adress[]
+
+  role     Role   @relation(fields: [roleName], references: [name])
+  roleName String
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  User User[]
 }
 
 model Client {

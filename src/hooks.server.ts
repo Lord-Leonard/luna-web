@@ -1,11 +1,38 @@
-import { router } from '$lib/trpc/router';
-import type { Handle } from '@sveltejs/kit';
-import { createTRPCHandle } from 'trpc-sveltekit';
-import {createContext} from "$lib/trpc/context";
+import type { Handle } from '@sveltejs/kit'
+import prisma  from '$lib/prisma'
 
-export const handle: Handle = createTRPCHandle({
-    router,
-    createContext,
-    onError: ({ type, path, error }) =>
-        console.error(`Encountered error while trying to process ${type} @ ${path}:`, error)
-});
+export const handle: Handle = async ({ event, resolve }) => {
+    // get cookies from browser
+    const session = event.cookies.get('session')
+
+    if (!session) {
+        // if there is no session load page as normal
+        return resolve(event);
+    }
+
+    // find the user based on the session
+    const user = await prisma.user.findUnique({
+        where: { userAuthToken: session },
+        select: { username: true, role: true },
+    })
+
+    // if `user` exists set `events.local`
+    if (user) {
+        event.locals.user = {
+            name: user.username,
+            role: user.role.name,
+        }
+    }
+
+    // load page as normal
+    return resolve(event);
+}
+
+
+
+// export const handle: Handle = createTRPCHandle({
+//     router,
+//     createContext,
+//     onError: ({ type, path, error }) =>
+//         console.error(`Encountered error while trying to process ${type} @ ${path}:`, error)
+// });
