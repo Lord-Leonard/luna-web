@@ -4,8 +4,11 @@ import type {Action, Actions, PageServerLoad} from './$types'
 
 import prisma from '$lib/prisma'
 
-export const load: PageServerLoad = async () => {
-    // todo
+export const load: PageServerLoad = async ({locals}) => {
+    // redirect user if already logged in
+    if (locals.user) {
+        throw redirect(302, '/')
+    }
 }
 
 const login: Action = async ({cookies, request}) => {

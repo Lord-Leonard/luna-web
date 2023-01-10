@@ -11,8 +11,11 @@ enum Roles {
     USER = 'user',
 }
 
-export const load: PageServerLoad = async () => {
-    // todo
+export const load: PageServerLoad = async ({locals}) => {
+    // redirect if user is logged out
+    if (locals.user) {
+        throw redirect(302, '/')
+    }
 }
 
 const register: Action = async ({ request }) => {
